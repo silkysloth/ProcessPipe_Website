@@ -22,7 +22,7 @@
   --input-text:#222;
 
   /* Header height token — one place to change */
-  --header-h: 90px;
+  --header-h: 150px;
 }
 
 /* ---- Global ---- */
@@ -53,8 +53,8 @@ body{
   z-index: 999;
   border-bottom: 3px solid var(--green);
   box-shadow: 0 4px 18px rgba(0,0,0,0.35);
-  /* Shrink height fluidly at small widths */
   transition: height .25s ease;
+  overflow: visible;                       /* allow logo to spill below */
 }
 
 .container.header-inner{
@@ -70,8 +70,8 @@ body{
 ============================== */
 .site-logo{
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: left;
+  gap: 0;
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
@@ -86,16 +86,15 @@ body{
   font-weight: 700;
   color: var(--text);
   line-height: 1;
-  margin: 0;
+  margin-right: 250px;
   padding: 0;
 }
 
 .logo-image {
-  /* Fluid: 30 px floor → 50 px ceiling, grows with viewport */
-  height: clamp(42px, 5.5vw, 70px);
+  height: clamp(80px, 10vw, 130px);       /* oversized — taller than the header */
   width: auto;
   display: block;
-  transition: height .25s ease;           /* smooth resize */
+  transition: height .25s ease;
 }
 
 /* ==============================
@@ -110,7 +109,7 @@ body{
 
 .nav-link{
   text-decoration: none;
-  color: var(--yellow);
+  color: var(--text);
   font-size: clamp(0.85rem, 1.2vw, 1.2rem);  /* fluid font */
   font-weight: 600;
   position: relative;

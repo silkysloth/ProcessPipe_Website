@@ -1,0 +1,4 @@
+name = "processpipe"
+type = "javascript"  # or "webpack" if you are bundling
+account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"
+workers_dev = true

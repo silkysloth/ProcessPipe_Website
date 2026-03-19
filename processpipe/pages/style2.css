@@ -16,7 +16,16 @@ body {
     padding-top: 80px;
     background-attachment: fixed;
 }
-
+.joburg{
+    color: black;
+}
+.logo-image {
+  height: 70px;    /* oversized — taller than the header */
+  width: auto;
+  display: block;
+  transition: height .25s ease;
+  margin-right: 0;
+}
 body::before {
     content: "";
     position: fixed;
@@ -100,7 +109,7 @@ body::before {
     top: 0;
     left: 0;
     z-index: 999;
-    padding: 25px 0;
+    padding:0;
     border-bottom: 3px solid var(--green);
     box-shadow: 0 4px 18px rgba(0,0,0,0.35);
 }
@@ -123,6 +132,8 @@ body::before {
     color: var(--text);
     text-decoration: none;
     white-space: nowrap;
+    margin-right: 400px;
+    
 }
 
 /* ---- Navigation ---- */
@@ -869,11 +880,7 @@ body {
     padding: 20px 25px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
-.contact-office h3 {
-    font-size: 1.6rem;
-    color: var(--green);
-    margin-bottom: 10px;
-}
+
 .contact-office p {
     font-size: 1rem;
     color: var(--text);
