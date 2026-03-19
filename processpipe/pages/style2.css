@@ -70,7 +70,9 @@ body::before {
 
     --input-bg: #ffffff;
     --input-text: #222;
+    --header-h: 100px;
 }
+
 
 .nav-search input,
 .contact-form input,
@@ -101,17 +103,26 @@ body::before {
 /* ==============================
    HEADER
 ============================== */
-.site-header {
-    background: var(--card-dark);
-    color: var(--white);
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
-    padding:0;
-    border-bottom: 3px solid var(--green);
-    box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+.site-header{
+  background: var(--card-dark);
+  width: 100%;
+  height: var(--header-h);
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 999;
+  border-bottom: 3px solid var(--green);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+  transition: height .25s ease;
+  overflow: visible;                       /* allow logo to spill below */
+}
+.site-logo:hover .logo-image {
+  transform: scale(1.18);
+}
+.logo-image {
+  height: clamp(80px, 10vw, 100px);       /* oversized — taller than the header */
+  width: auto;
+  display: block;
+  transition: height .25s ease, transform .25s ease;
 }
 
 /* ---- Layout ---- */
@@ -132,40 +143,42 @@ body::before {
     color: var(--text);
     text-decoration: none;
     white-space: nowrap;
-    margin-right: 400px;
+    margin-right: 20px;
     
 }
 
 /* ---- Navigation ---- */
-.primary-nav .nav-list {
-    display: flex;
-    gap: 100px;
-    list-style: none;
+.primary-nav .nav-list{
+  display: flex;
+  gap: clamp(20px, 4vw, 100px);           /* gap shrinks fluidly */
+  list-style: none;
+  flex-wrap: nowrap;
 }
-.nav-link {
-    text-decoration: none;
-    color: var(--yellow);
-    font-size: 1.2rem;
-    font-weight: 600;
-    transition: 0.25s;
-    position: relative;
+
+.nav-link{
+  text-decoration: none;
+  color: var(--yellow);
+  font-size: clamp(0.85rem, 1.2vw, 1.2rem);  /* fluid font */
+  font-weight: 600;
+  position: relative;
+  transition: color .25s;
+  white-space: nowrap;
 }
-.nav-link:hover {
-    color: var(--pink);
+
+.nav-link:hover{ color: var(--pink); }
+
+.nav-link::after{
+  content:"";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--pink);
+  transition: width .3s ease;
 }
-.nav-link::after {
-    content: "";
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--pink);
-    transition: width .3s ease;
-}
-.nav-link:hover::after {
-    width: 100%;
-}
+
+.nav-link:hover::after{ width: 100%; }
 
 /* ------------------------
    DROPDOWN MENU STYLES
