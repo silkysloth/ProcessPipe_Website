@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Process Pipe</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Process Pipe — supplier of pipes, fittings, flanges and tubes." />
+    <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="container header-inner">
+        <img src="images/processpipelogo.png" alt="Process Pipe Logo" class="logo-image">
+        <a href="index.html" class="site-logo" style="font-size: 60px;">Process Pipe</a>
+
+        <button class="menu-toggle" aria-expanded="false" aria-controls="nav-list">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <nav class="primary-nav">
+            <ul class="nav-list" id="nav-list">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="pages/about.html" class="nav-link">About</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">Products ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="pages/pipes.html">Pipes</a></li>
+                        <li><a href="pages/flanges.html">Flanges</a></li>
+                        <li><a href="pages/fittings.html">Fittings</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="pages/contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+
+        
+    </div>
+</header>
+
+<main>
+
+    <!-- HERO -->
+    <section class="section-hero">
+        <video class="hero-video" src="videos/pipe-video.mp4" autoplay muted loop></video>
+        <div class="hero-overlay"></div>
+        
+    </section>
+
+    <!-- 🔎 PRODUCT SEARCH SECTION -->
+    <section class="product-search-section">
+        <div class="container">
+            <h2>Search Products</h2>
+            <input id="product-search" type="text" placeholder="Search pipes, sizes, standards..." />
+            <div id="product-results"></div>
+        </div>
+    </section>
+
+    <!-- PRODUCT CATEGORIES -->
+    <section class="section-products">
+        <ul class="product-grid">
+            <li><a href="pages/pipes.html"><img src="images/pipe.jpg" alt="picture of a pipe"><span>Pipes</span></a></li>
+       
+            <li><a href="pages/flanges.html"><img src="images/flanges.jpg" alt="picture of a flange"><span>Flanges</span></a></li>
+            <li><a href="pages/fittings.html"><img src="images/fitting.jpg" alt="picture of a fitting"><span>Fittings</span></a></li>
+        </ul>
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <p>&copy;Process Pipe</p>
+</footer>
+
+<script src="script.js" defer></script>
+</body>
+</html>

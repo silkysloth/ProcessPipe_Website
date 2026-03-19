@@ -1,0 +1,179 @@
+{
+  "standard": "SANS 719",
+  "unit": "kPa",
+  "rows": [
+    {
+      "nominal_bore_mm": 200,
+      "outside_diameter_mm": 219.1,
+      "pressures": [
+        { "thickness_mm": 4.0, "pressure_kpa": 6600 },
+        { "thickness_mm": 4.5, "pressure_kpa": 7430 },
+        { "thickness_mm": 5.0, "pressure_kpa": 8250 },
+        { "thickness_mm": 6.0, "pressure_kpa": 9900 },
+        { "thickness_mm": 8.0, "pressure_kpa": 13200 },
+        { "thickness_mm": 10.0, "pressure_kpa": 16500 },
+        { "thickness_mm": 12.0, "pressure_kpa": 19800 },
+        { "thickness_mm": 14.0, "pressure_kpa": 23100 }
+      ]
+    },
+    {
+      "nominal_bore_mm": 250,
+      "outside_diameter_mm": 273.0,
+      "pressures": [
+        { "thickness_mm": 4.0, "pressure_kpa": 5300 },
+        { "thickness_mm": 4.5, "pressure_kpa": 5960 },
+        { "thickness_mm": 5.0, "pressure_kpa": 6620 },
+        { "thickness_mm": 6.0, "pressure_kpa": 7950 },
+        { "thickness_mm": 8.0, "pressure_kpa": 10590 },
+        { "thickness_mm": 10.0, "pressure_kpa": 13240 },
+        { "thickness_mm": 12.0, "pressure_kpa": 15890 },
+        { "thickness_mm": 14.0, "pressure_kpa": 18540 }
+      ]
+    },
+    {
+      "nominal_bore_mm": 300,
+      "outside_diameter_mm": 323.9,
+      "pressures": [
+        { "thickness_mm": 4.0, "pressure_kpa": 4460 },
+        { "thickness_mm": 4.5, "pressure_kpa": 5020 },
+        { "thickness_mm": 5.0, "pressure_kpa": 5580 },
+        { "thickness_mm": 6.0, "pressure_kpa": 6700 },
+        { "thickness_mm": 8.0, "pressure_kpa": 8930 },
+        { "thickness_mm": 10.0, "pressure_kpa": 11160 },
+        { "thickness_mm": 12.0, "pressure_kpa": 13390 },
+        { "thickness_mm": 14.0, "pressure_kpa": 15630 }
+      ]
+    },
+    {
+      "nominal_bore_mm": 350,
+      "outside_diameter_mm": 355.6,
+      "pressures": [
+        { "thickness_mm": 4.0, "pressure_kpa": 4070 },
+        { "thickness_mm": 4.5, "pressure_kpa": 4580 },
+        { "thickness_mm": 5.0, "pressure_kpa": 5080 },
+        { "thickness_mm": 6.0, "pressure_kpa": 6100 },
+        { "thickness_mm": 8.0, "pressure_kpa": 8130 },
+        { "thickness_mm": 10.0, "pressure_kpa": 10170 },
+        { "thickness_mm": 12.0, "pressure_kpa": 12200 },
+        { "thickness_mm": 14.0, "pressure_kpa": 14230 }
+      ]
+    },
+    {
+      "nominal_bore_mm": 400,
+      "outside_diameter_mm": 406.4,
+      "pressures": [
+        { "thickness_mm": 4.0, "pressure_kpa": 3560 },
+        { "thickness_mm": 4.5, "pressure_kpa": 4000 },
+        { "thickness_mm": 5.0, "pressure_kpa": 4450 },
+        { "thickness_mm": 6.0, "pressure_kpa": 5340 },
+        { "thickness_mm": 8.0, "pressure_kpa": 7120 },
+        { "thickness_mm": 10.0, "pressure_kpa": 8900 },
+        { "thickness_mm": 12.0, "pressure_kpa": 10670 },
+        { "thickness_mm": 14.0, "pressure_kpa": 12450 }
+      ]
+    },
+    {
+      "nominal_bore_mm": 450,
+      "outside_diameter_mm": 457.2,
+      "pressures": [
+        { "thickness_mm": 4.0, "pressure_kpa": 3160 },
+        { "thickness_mm": 4.5, "pressure_kpa": 3560 },
+        { "thickness_mm": 5.0, "pressure_kpa": 3950 },
+        { "thickness_mm": 6.0, "pressure_kpa": 4740 },
+        { "thickness_mm": 8.0, "pressure_kpa": 6330 },
+        { "thickness_mm": 10.0, "pressure_kpa": 7910 },
+        { "thickness_mm": 12.0, "pressure_kpa": 9490 },
+        { "thickness_mm": 14.0, "pressure_kpa": 11070 }
+      ]
+    },
+    {
+      "nominal_bore_mm": 500,
+      "outside_diameter_mm": 508.0,
+      "pressures": [
+        { "thickness_mm": 4.0, "pressure_kpa": 2850 },
+        { "thickness_mm": 4.5, "pressure_kpa": 3200 },
+        { "thickness_mm": 5.0, "pressure_kpa": 3560 },
+        { "thickness_mm": 6.0, "pressure_kpa": 4270 },
+        { "thickness_mm": 8.0, "pressure_kpa": 5690 },
+        { "thickness_mm": 10.0, "pressure_kpa": 7120 },
+        { "thickness_mm": 12.0, "pressure_kpa": 8540 },
+        { "thickness_mm": 14.0, "pressure_kpa": 9960 }
+      ]
+    },
+    {
+      "nominal_bore_mm": 600,
+      "outside_diameter_mm": 609.6,
+      "pressures": [
+        { "thickness_mm": 4.0, "pressure_kpa": 2370 },
+        { "thickness_mm": 4.5, "pressure_kpa": 2670 },
+        { "thickness_mm": 5.0, "pressure_kpa": 2970 },
+        { "thickness_mm": 6.0, "pressure_kpa": 3560 },
+        { "thickness_mm": 8.0, "pressure_kpa": 4740 },
+        { "thickness_mm": 10.0, "pressure_kpa": 5930 },
+        { "thickness_mm": 12.0, "pressure_kpa": 7120 },
+        { "thickness_mm": 14.0, "pressure_kpa": 8300 }
+      ]
+    },
+    {
+      "nominal_bore_mm": 700,
+      "outside_diameter_mm": 711.2,
+      "pressures": [
+        { "thickness_mm": 4.0, "pressure_kpa": 2030 },
+        { "thickness_mm": 4.5, "pressure_kpa": 2290 },
+        { "thickness_mm": 5.0, "pressure_kpa": 2540 },
+        { "thickness_mm": 6.0, "pressure_kpa": 3010 },
+        { "thickness_mm": 8.0, "pressure_kpa": 4070 },
+        { "thickness_mm": 10.0, "pressure_kpa": 5080 },
+        { "thickness_mm": 12.0, "pressure_kpa": 6100 },
+        { "thickness_mm": 14.0, "pressure_kpa": 7120 }
+      ]
+    },
+    {
+      "nominal_bore_mm": 800,
+      "outside_diameter_mm": 812.8,
+      "pressures": [
+        { "thickness_mm": 4.0, "pressure_kpa": 1780 },
+        { "thickness_mm": 4.5, "pressure_kpa": 2000 },
+        { "thickness_mm": 5.0, "pressure_kpa": 2220 },
+        { "thickness_mm": 6.0, "pressure_kpa": 2670 },
+        { "thickness_mm": 8.0, "pressure_kpa": 3560 },
+        { "thickness_mm": 10.0, "pressure_kpa": 4450 },
+        { "thickness_mm": 12.0, "pressure_kpa": 5340 },
+        { "thickness_mm": 14.0, "pressure_kpa": 6230 }
+      ]
+    },
+    {
+      "nominal_bore_mm": 900,
+      "outside_diameter_mm": 914.4,
+      "pressures": [
+        { "thickness_mm": 4.0, "pressure_kpa": 1580 },
+        { "thickness_mm": 4.5, "pressure_kpa": 1780 },
+        { "thickness_mm": 5.0, "pressure_kpa": 1980 },
+        { "thickness_mm": 6.0, "pressure_kpa": 2370 },
+        { "thickness_mm": 8.0, "pressure_kpa": 3160 },
+        { "thickness_mm": 10.0, "pressure_kpa": 3950 },
+        { "thickness_mm": 12.0, "pressure_kpa": 4740 },
+        { "thickness_mm": 14.0, "pressure_kpa": 5540 }
+      ]
+    },
+    {
+      "nominal_bore_mm": 1000,
+      "outside_diameter_mm": 1016.0,
+      "pressures": [
+        { "thickness_mm": 4.0, "pressure_kpa": 1420 },
+        { "thickness_mm": 4.5, "pressure_kpa": 1600 },
+        { "thickness_mm": 5.0, "pressure_kpa": 1780 },
+        { "thickness_mm": 6.0, "pressure_kpa": 2140 },
+        { "thickness_mm": 8.0, "pressure_kpa": 2850 },
+        { "thickness_mm": 10.0, "pressure_kpa": 3560 },
+        { "thickness_mm": 12.0, "pressure_kpa": 4270 },
+        { "thickness_mm": 14.0, "pressure_kpa": 4980 }
+      ]
+    }
+  ],
+  "notes": [
+    "Yield stress of steel: 300 MPa.",
+    "Test pressures based on stressing steel to 75% of minimum specified yield stress.",
+    "Applicable to plain ended pipes."
+  ]
+}

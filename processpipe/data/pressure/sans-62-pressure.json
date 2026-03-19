@@ -1,0 +1,87 @@
+
+ {
+    "6": {
+      "water_service_medium": "2100",
+      "water_service_heavy": "2400",
+      "steam_air_gas_medium": "1050",
+      "steam_air_gas_heavy": "1050"
+    },
+    "8": {
+      "water_service_medium": "2100",
+      "water_service_heavy": "2400",
+      "steam_air_gas_medium": "1050",
+      "steam_air_gas_heavy": "1050"
+    },
+    "10": {
+      "water_service_medium": "2100",
+      "water_service_heavy": "2400",
+      "steam_air_gas_medium": "1050",
+      "steam_air_gas_heavy": "1050"
+    },
+    "15": {
+      "water_service_medium": "2100",
+      "water_service_heavy": "2400",
+      "steam_air_gas_medium": "1050",
+      "steam_air_gas_heavy": "1050"
+    },
+    "20": {
+      "water_service_medium": "2100",
+      "water_service_heavy": "2400",
+      "steam_air_gas_medium": "1050",
+      "steam_air_gas_heavy": "1050"
+    },
+    "25": {
+      "water_service_medium": "2100",
+      "water_service_heavy": "2400",
+      "steam_air_gas_medium": "1050",
+      "steam_air_gas_heavy": "1050"
+    },
+    "32": {
+      "water_service_medium": "1700",
+      "water_service_heavy": "2100",
+      "steam_air_gas_medium": "900",
+      "steam_air_gas_heavy": "900"
+    },
+    "40": {
+      "water_service_medium": "1700",
+      "water_service_heavy": "2100",
+      "steam_air_gas_medium": "900",
+      "steam_air_gas_heavy": "900"
+    },
+    "50": {
+      "water_service_medium": "1400",
+      "water_service_heavy": "1700",
+      "steam_air_gas_medium": null,
+      "steam_air_gas_heavy": null
+    },
+    "65": {
+      "water_service_medium": "1400",
+      "water_service_heavy": "1700",
+      "steam_air_gas_medium": null,
+      "steam_air_gas_heavy": null
+    },
+    "80": {
+      "water_service_medium": "1400",
+      "water_service_heavy": "1700",
+      "steam_air_gas_medium": null,
+      "steam_air_gas_heavy": null
+    },
+    "100": {
+      "water_service_medium": "1050",
+      "water_service_heavy": "1400",
+      "steam_air_gas_medium": null,
+      "steam_air_gas_heavy": null
+    },
+    "125": {
+      "water_service_medium": "1050",
+      "water_service_heavy": "1400",
+      "steam_air_gas_medium": null,
+      "steam_air_gas_heavy": null
+    },
+    "150": {
+      "water_service_medium": "850",
+      "water_service_heavy": "1050",
+      "steam_air_gas_medium": null,
+      "steam_air_gas_heavy": null
+    }
+  }

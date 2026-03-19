@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Process Pipe</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Process Pipe — supplier of pipes, fittings, flanges and tubes." />
+  <meta name="theme-color" content="#0a74da" />
+  <link href="style3.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="fittings-page">
+
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a href="../index.html" class="site-logo">Process Pipe</a>
+
+      <button class="menu-toggle" aria-expanded="false" aria-controls="nav-list" aria-label="Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <nav class="primary-nav" role="navigation" aria-label="Main navigation">
+        <ul class="nav-list" id="nav-list">
+          <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+
+          <li class="nav-item dropdown">
+            <a href="pages.html" class="nav-link dropdown-toggle">Pages ▾</a>
+            <ul class="dropdown-menu">
+              <li><a href="pipes.html">Pipes</a></li>
+              <li><a href="tubes.html">Tubes</a></li>
+              <li><a href="flanges.html">Flanges</a></li>
+              <li><a href="fittings.html">Fittings</a></li>
+              <li><a href="structuredsteel.html">Structural Steel</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+          <li class="nav-item"><a href="contact.html" class="nav-link">Contact Us</a></li>
+        </ul>
+      </nav>
+
+      <a id="back-link" href="../index.html" class="header-backlink">← Back to search</a>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="product-search-section">
+      <div class="container">
+        <h2>Fittings</h2>
+        <p class="page-subtitle">View the catalogue first, or pick a tab to browse products.</p>
+      </div>
+    </section>
+
+    <!-- CATEGORY TABS -->
+    <section class="container">
+      <div class="tabs-wrap">
+        <div class="tabs" role="tablist" aria-label="Fitting categories">
+          <button type="button" class="tab active" data-tab="all" role="tab" aria-selected="true">Catalogue</button>
+          <button type="button" class="tab" data-tab="elbows" role="tab">Elbows</button>
+          <button type="button" class="tab" data-tab="tees" role="tab">Tees</button>
+          <button type="button" class="tab" data-tab="reducers" role="tab">Reducers</button>
+          <button type="button" class="tab" data-tab="caps" role="tab">Caps</button>
+          <button type="button" class="tab" data-tab="b169" role="tab">ANSI B16.9</button>
+        </div>
+      </div>
+
+      <!-- PDF SECTION (default view) -->
+      <section id="pdfSection" class="catalogue-wrap">
+        <div class="catalogue-head">
+          <h3 class="catalogue-title">Fittings Catalogue (PDF)</h3>
+          <p class="catalogue-note">Tip: click a tab above to browse clickable products.</p>
+        </div>
+
+        <!-- Put your PDF inside: /pages/pdfs/ -->
+        <!-- Example: /pages/pdfs/processpipe-fittings.pdf -->
+        <div class="pdf-shell">
+          <iframe
+            class="pdf-iframe"
+            src="pdfs/processpipe-fittings.pdf"
+            title="Fittings Catalogue PDF"
+            loading="lazy"
+          ></iframe>
+        </div>
+      </section>
+
+      <!-- PRODUCTS SECTION (hidden until a tab is clicked) -->
+      <section id="productsSection" class="products-wrap" hidden>
+
+        <section class="tab-panel" data-panel="elbows">
+          <h2>Elbows</h2>
+          <div class="product-grid-cards" data-list="elbows"></div>
+        </section>
+
+        <section class="tab-panel" data-panel="tees">
+          <h2>Tees</h2>
+          <div class="product-grid-cards" data-list="tees"></div>
+        </section>
+
+        <section class="tab-panel" data-panel="reducers">
+          <h2>Reducers</h2>
+          <div class="product-grid-cards" data-list="reducers"></div>
+        </section>
+
+        <section class="tab-panel" data-panel="caps">
+          <h2>Caps</h2>
+          <div class="product-grid-cards" data-list="caps"></div>
+        </section>
+
+        <section class="tab-panel" data-panel="b169">
+          <h2>ANSI B16.9</h2>
+          <div class="product-grid-cards" data-list="b169"></div>
+        </section>
+
+      </section>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-contact">
+        <p>&copy; Process Pipe</p>
+      </div>
+      <div class="footer-quicklinks">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="pages.html">Pages</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script2.js" defer></script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+
+    // Back link
+    (function setBackLink(){
+      const back = document.getElementById("back-link");
+      if (!back) return;
+      const ref = document.referrer || "";
+      if (ref && ref.includes(window.location.host)) back.href = ref;
+    })();
+
+    const pdfSection = document.getElementById("pdfSection");
+    const productsSection = document.getElementById("productsSection");
+
+    // Tabs
+    const tabs = document.querySelectorAll(".tabs .tab[data-tab]");
+    const panels = document.querySelectorAll(".tab-panel[data-panel]");
+
+    function setActive(key){
+      tabs.forEach(btn => {
+        const on = btn.dataset.tab === key;
+        btn.classList.toggle("active", on);
+        btn.setAttribute("aria-selected", on ? "true" : "false");
+      });
+
+      // Catalogue tab = show PDF, hide products
+      if (key === "all") {
+        pdfSection.hidden = false;
+        productsSection.hidden = true;
+        panels.forEach(p => p.classList.remove("active"));
+        return;
+      }
+
+      // Any product tab = hide PDF, show products + chosen panel
+      pdfSection.hidden = true;
+      productsSection.hidden = false;
+
+      panels.forEach(p => {
+        const show = p.dataset.panel === key;
+        p.classList.toggle("active", show);
+      });
+    }
+
+    tabs.forEach(btn => btn.addEventListener("click", () => {
+      const key = btn.dataset.tab;
+      setActive(key);
+
+      // Lazy load products only when first product tab is clicked
+      if (key !== "all") ensureLoaded();
+    }));
+
+    // Default: Catalogue
+    setActive("all");
+
+    // ---------- Data + Render (lazy) ----------
+    let LOADED = false;
+    let PRODUCT_CACHE = null;
+
+    const norm = v => String(v ?? "").toLowerCase();
+
+    const flatten = raw =>
+      (Array.isArray(raw) ? raw : [])
+        .flatMap(p => Array.isArray(p.items) ? p.items : [p])
+        .filter(Boolean);
+
+    const isFitting = p => norm(p.category) === "fitting";
+
+    const isElbow   = p => norm(p.description).includes("elbow");
+    const isTee     = p => norm(p.description).includes("tee");
+    const isReducer = p => norm(p.description).includes("reducer");
+    const isCap     = p => norm(p.description).includes("cap");
+    const isB169    = p => norm(p.standard).includes("b16.9");
+
+    const getSize = p => p["nominal bore"] || p["nominal diameter"] || p.size || "—";
+    const getOD   = p => p["outside diameter"] || p.outside_diameter_mm || p.outside_diameter || "—";
+    const getNPS  = p => p.nps || "—";
+
+    function detailsLink(p){
+      // product.html is in the SAME /pages folder
+      return `product.html?id=${encodeURIComponent(p.id)}`;
+    }
+
+    // tiny inline icon svg (neutral grey)
+    const icon = (pathD) => `
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="${pathD}"></path>
+      </svg>
+    `;
+
+    function cardHTML(p){
+      const std  = p.standard || "—";
+      const desc = p.description || "Fitting";
+      const nb   = getSize(p);
+      const od   = getOD(p);
+      const nps  = getNPS(p);
+
+      const d = norm(desc);
+      const type =
+        d.includes("elbow") ? "Elbow" :
+        d.includes("reducing tee") ? "Reducing Tee" :
+        d.includes("tee") ? "Tee" :
+        d.includes("reducer") ? "Reducer" :
+        d.includes("cap") ? "Cap" :
+        "Fitting";
+
+      return `
+        <a class="prod-card prod-card--clean" href="${detailsLink(p)}" aria-label="${std} ${desc}">
+          <div class="prod-head">
+            <div class="prod-chips">
+              <span class="chip chip-std">${std}</span>
+              <span class="chip chip-type">${type}</span>
+            </div>
+            <div class="prod-title">${desc}</div>
+          </div>
+
+          <div class="prod-specs prod-specs--icons">
+            <div class="spec">
+              ${icon("M4 7h16M4 12h16M4 17h16")}
+              <div>
+                <span class="spec-k">NB/DN</span>
+                <span class="spec-v">${nb}</span>
+              </div>
+            </div>
+
+            <div class="spec">
+              ${icon("M7 7h10v10H7z")}
+              <div>
+                <span class="spec-k">OD</span>
+                <span class="spec-v">${od}</span>
+              </div>
+            </div>
+
+            <div class="spec">
+              ${icon("M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20Zm0 6v4l3 2")}
+              <div>
+                <span class="spec-k">NPS</span>
+                <span class="spec-v">${nps}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="prod-foot">
+            <span class="muted">ID: ${p.id}</span>
+            <span class="cta">View details →</span>
+          </div>
+        </a>
+      `;
+    }
+
+    async function loadProducts(){
+      if (PRODUCT_CACHE) return PRODUCT_CACHE;
+
+      const res = await fetch("../data/search-index.json", { cache: "force-cache" });
+      if (!res.ok) {
+        console.error("❌ Could not load ../data/search-index.json", res.status);
+        return [];
+      }
+
+      PRODUCT_CACHE = await res.json();
+      return PRODUCT_CACHE;
+    }
+
+    function render(listName, items){
+      const mount = document.querySelector(`[data-list="${listName}"]`);
+      if (!mount) return;
+
+      mount.innerHTML = items.length
+        ? items.map(cardHTML).join("")
+        : `<div class="empty-state">No products found.</div>`;
+    }
+
+    async function ensureLoaded(){
+      if (LOADED) return;
+      LOADED = true;
+
+      const raw = await loadProducts();
+      const all = flatten(raw).filter(isFitting);
+
+      render("elbows",   all.filter(isElbow));
+      render("tees",     all.filter(isTee));
+      render("reducers", all.filter(isReducer));
+      render("caps",     all.filter(isCap));
+      render("b169",     all.filter(isB169));
+    }
+
+  });
+  </script>
+
+</body>
+</html>

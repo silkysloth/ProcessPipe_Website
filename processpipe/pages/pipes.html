@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Process Pipe</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Process Pipe — supplier of pipes, fittings, flanges and tubes." />
+  <meta name="theme-color" content="#0a74da" />
+  <link href="style3.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="pipes-page">
+
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a href="../index.html" class="site-logo">Process Pipe</a>
+
+      <button class="menu-toggle" aria-expanded="false" aria-controls="nav-list" aria-label="Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <nav class="primary-nav" role="navigation" aria-label="Main navigation">
+        <ul class="nav-list" id="nav-list">
+          <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+
+          <li class="nav-item dropdown">
+            <a href="pages.html" class="nav-link dropdown-toggle">Pages ▾</a>
+            <ul class="dropdown-menu">
+              <li><a href="pipes.html">Pipes</a></li>
+              <li><a href="tubes.html">Tubes</a></li>
+              <li><a href="flanges.html">Flanges</a></li>
+              <li><a href="fittings.html">Fittings</a></li>
+              <li><a href="structuredsteel.html">Structural Steel</a></li>
+            </ul>
+          </li>
+
+          
+          <li class="nav-item"><a href="contact.html" class="nav-link">Contact Us</a></li>
+        </ul>
+      </nav>
+
+      <a id="back-link" href="../index.html" class="header-backlink">← Back to search</a>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="product-search-section">
+      <div class="container">
+        <h2>Pipes</h2>
+        <p style="opacity:.75;margin-top:6px;">Browse by category tabs below.</p>
+      </div>
+    </section>
+
+    <!-- PDF VIEW (DEFAULT) -->
+    <section id="pdf-view" class="section-pdf animate-on-scroll" style="max-width:1780px;margin:20px auto;">
+      <h2 class="pdf-title">Pipes Catalog</h2>
+      <div class="pdf-container">
+        <iframe
+          src="pdfs/ProcessPipe-Pipes.pdf"
+          frameborder="0"
+          class="pdf-iframe"
+          style="width:100%;height:80vh;border-radius:14px;box-shadow:0 10px 28px rgba(0,0,0,.18);">
+        </iframe>
+      </div>
+    </section>
+
+    <!-- CATEGORY TABS -->
+    <section class="container">
+
+      <div class="tabs-wrap">
+        <div class="tabs" role="tablist" aria-label="Product categories">
+          <button type="button" class="tab" data-tab="seamless" role="tab">Seamless</button>
+          <button type="button" class="tab" data-tab="welded" role="tab">Welded</button>
+          <button type="button" class="tab" data-tab="sans62" role="tab">SANS 62</button>
+          <button type="button" class="tab" data-tab="sans719" role="tab">SANS 719</button>
+
+          <!-- Back button -->
+          <button type="button" class="tab backtab" id="back-to-pdf" style="margin-left:auto;">
+            ← Back to PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- PRODUCTS VIEW (HIDDEN UNTIL TAB CLICK) -->
+      <section id="products-view" style="display:none;">
+        <section class="tab-panel" data-panel="seamless">
+          <h2>Seamless Pipes</h2>
+          <div class="product-grid-cards" data-list="seamless"></div>
+        </section>
+
+        <section class="tab-panel" data-panel="welded">
+          <h2>Welded Pipes</h2>
+          <div class="product-grid-cards" data-list="welded"></div>
+        </section>
+
+        <section class="tab-panel" data-panel="sans62">
+          <h2>SANS 62</h2>
+          <div class="product-grid-cards" data-list="sans62"></div>
+        </section>
+
+        <section class="tab-panel" data-panel="sans719">
+          <h2>SANS 719</h2>
+          <div class="product-grid-cards" data-list="sans719"></div>
+        </section>
+      </section>
+
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-contact">
+        <p>&copy; Process Pipe</p>
+      </div>
+      <div class="footer-quicklinks">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="pages.html">Pages</a></li>
+         
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script2.js" defer></script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+
+    // Prefer going back to the page you came from (if any)
+    (function setBackLink(){
+      const back = document.getElementById("back-link");
+      if (!back) return;
+      const ref = document.referrer || "";
+      if (ref && ref.includes(window.location.host)) back.href = ref;
+    })();
+
+    // Views
+    const pdfView = document.getElementById("pdf-view");
+    const productsView = document.getElementById("products-view");
+    const backToPdfBtn = document.getElementById("back-to-pdf");
+
+    function showPdf(){
+      if (pdfView) pdfView.style.display = "";
+      if (productsView) productsView.style.display = "none";
+      // clear active states
+      document.querySelectorAll(".tabs .tab").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    }
+
+    function showProducts(){
+      if (pdfView) pdfView.style.display = "none";
+      if (productsView) productsView.style.display = "";
+    }
+
+    // Default: show PDF
+    showPdf();
+
+    if (backToPdfBtn){
+      backToPdfBtn.addEventListener("click", showPdf);
+    }
+
+    // Tabs
+    const tabs = document.querySelectorAll(".tabs .tab[data-tab]");
+    const panels = document.querySelectorAll(".tab-panel[data-panel]");
+
+    function setActive(key){
+      document.querySelectorAll(".tabs .tab[data-tab]").forEach(btn => {
+        const on = btn.dataset.tab === key;
+        btn.classList.toggle("active", on);
+        btn.setAttribute("aria-selected", on ? "true" : "false");
+      });
+
+      panels.forEach(p => {
+        const show = p.dataset.panel === key;
+        p.classList.toggle("active", show);
+      });
+    }
+
+    // Load products once
+    let PRODUCT_CACHE = null;
+
+    async function loadProducts(){
+      if (PRODUCT_CACHE) return PRODUCT_CACHE;
+
+      const res = await fetch("../data/search-index.json", { cache: "force-cache" });
+      if (!res.ok) {
+        console.error("❌ Could not load ../data/search-index.json", res.status);
+        return [];
+      }
+
+      const data = await res.json();
+      PRODUCT_CACHE = data;
+      return data;
+    }
+
+    // Helpers
+    const norm = v => String(v ?? "").toLowerCase();
+
+    const flatten = raw =>
+      (Array.isArray(raw) ? raw : [])
+        .flatMap(p => Array.isArray(p.items) ? p.items : [p])
+        .filter(Boolean);
+
+    const isPipe = p => norm(p.category) === "pipe";
+    const isSans62  = p => norm(p.standard).includes("sans 62");
+    const isSans719 = p => norm(p.standard).includes("sans 719");
+    const isWelded  = p => norm(p.description).includes("weld");
+    const isSeamless= p => norm(p.description).includes("seamless");
+
+    const getSize = p => p["nominal bore"] || p["nominal diameter"] || p.size || "—";
+    const getOD   = p => p["outside diameter"] || p.outside_diameter_mm || p.outside_diameter || "—";
+
+    function detailsLink(p){
+      return `product.html?id=${encodeURIComponent(p.id)}`;
+    }
+
+    function cardHTML(p){
+      const std  = p.standard || "—";
+      const desc = p.description || "Product";
+      const od   = getOD(p);
+      const nb   = getSize(p);
+      const nps  = p.nps || "—";
+
+      const d = String(desc).toLowerCase();
+      const type =
+        d.includes("seamless") ? "Seamless" :
+        d.includes("weld") || d.includes("erw") ? "Welded" :
+        "Pipe";
+
+      return `
+        <a class="prod-card" href="${detailsLink(p)}" aria-label="${std} ${desc}">
+          <div class="prod-head">
+            <div class="prod-chips">
+              <span class="chip chip-std">${std}</span>
+              <span class="chip chip-type">${type}</span>
+            </div>
+            <div class="prod-title">${desc}</div>
+          </div>
+
+          <div class="prod-specs">
+            <div class="spec">
+              <span class="spec-k">NB/DN</span>
+              <span class="spec-v">${nb}</span>
+            </div>
+            <div class="spec">
+              <span class="spec-k">OD</span>
+              <span class="spec-v">${od}</span>
+            </div>
+            <div class="spec">
+              <span class="spec-k">NPS</span>
+              <span class="spec-v">${nps}</span>
+            </div>
+          </div>
+
+          <div class="prod-foot">
+            <span class="muted">${p.category || ""}</span>
+            <span class="cta">View details →</span>
+          </div>
+        </a>
+      `;
+    }
+
+    function render(listName, items){
+      const mount = document.querySelector(`[data-list="${listName}"]`);
+      if (!mount) return;
+
+      mount.innerHTML = items.length
+        ? items.map(cardHTML).join("")
+        : `<div class="empty-state">No products found.</div>`;
+    }
+
+    // Load once + render once
+    let ALL_PIPES = [];
+
+    (async () => {
+      const raw = await loadProducts();
+      ALL_PIPES = flatten(raw).filter(isPipe);
+
+      render("seamless", ALL_PIPES.filter(isSeamless));
+      render("welded",   ALL_PIPES.filter(isWelded));
+      render("sans62",   ALL_PIPES.filter(isSans62));
+      render("sans719",  ALL_PIPES.filter(isSans719));
+    })();
+
+    // On tab click: show products + activate correct panel
+    tabs.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const key = btn.dataset.tab;
+        if (!key) return;
+        showProducts();
+        setActive(key);
+      });
+    });
+
+  });
+  </script>
+
+</body>
+</html>

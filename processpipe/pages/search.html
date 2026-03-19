@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Search Products | Process Pipe</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="../style.css" rel="stylesheet" type="text/css">
+  <style>
+    .search-wrap{padding:2rem 0}
+    .search-bar{display:flex; gap:.75rem; flex-wrap:wrap}
+    .search-bar input{flex:1; min-width:240px; padding:.8rem 1rem; border-radius:12px; border:1px solid #ddd}
+    .search-bar button{padding:.8rem 1rem; border-radius:12px; border:0; cursor:pointer}
+    .results{margin-top:1.25rem; display:grid; gap:.75rem}
+    .card{border:1px solid #eee; border-radius:14px; padding:1rem; background:#fff}
+    .meta{display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.35rem; opacity:.85}
+    .pill{font-size:.85rem; padding:.15rem .5rem; border-radius:999px; border:1px solid #eee}
+    .row{display:flex; align-items:flex-start; justify-content:space-between; gap:1rem}
+    .small{font-size:.9rem; opacity:.8}
+    .empty{padding:1rem; border:1px dashed #ddd; border-radius:14px}
+    dialog{border:0; border-radius:16px; padding:0; max-width:720px; width:calc(100% - 2rem)}
+    .modal-h{padding:1rem 1.25rem; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center}
+    .modal-b{padding:1rem 1.25rem}
+    .x{border:0; background:transparent; font-size:1.25rem; cursor:pointer}
+    pre{white-space:pre-wrap; word-break:break-word; background:#f7f7f7; padding:1rem; border-radius:12px; overflow:auto}
+  </style>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a href="../index.html" class="site-logo">Process Pipe</a>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="nav-list" aria-label="Menu">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
+      <nav class="primary-nav" role="navigation" aria-label="Main navigation">
+        <ul class="nav-list" id="nav-list">
+          <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="pages.html" class="nav-link">Products</a></li>
+          <li class="nav-item"><a href="search.html" class="nav-link">Search</a></li>
+          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container search-wrap">
+    <h1>Search the catalogue</h1>
+    <p class="small">Try: <b>“SANS 62 50mm”</b>, <b>“ASTM A106 4 inch sch 40”</b>, <b>“90 elbow 6”</b>, <b>“BS 4504 flange”</b></p>
+
+    <div class="search-bar">
+      <input id="q" type="search" placeholder="Search pipes, fittings, sizes, schedules…" autocomplete="off" />
+      <button id="btn">Search</button>
+    </div>
+
+    <div id="status" class="small" style="margin-top:.5rem;"></div>
+    <div id="results" class="results"></div>
+  </main>
+
+  <dialog id="modal">
+    <div class="modal-h">
+      <div>
+        <div id="mTitle" style="font-weight:700"></div>
+        <div id="mSub" class="small"></div>
+      </div>
+      <button class="x" id="close" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-b">
+      <div class="small" style="margin-bottom:.5rem;">Full row (JSON):</div>
+      <pre id="mJson"></pre>
+    </div>
+  </dialog>
+
+  <script src="../script.js"></script>
+  <script>
+    const qEl = document.getElementById('q');
+    const btn = document.getElementById('btn');
+    const resultsEl = document.getElementById('results');
+    const statusEl = document.getElementById('status');
+
+    const modal = document.getElementById('modal');
+    const mTitle = document.getElementById('mTitle');
+    const mSub = document.getElementById('mSub');
+    const mJson = document.getElementById('mJson');
+    document.getElementById('close').addEventListener('click', () => modal.close());
+
+    async function runSearch() {
+      const q = qEl.value.trim();
+      statusEl.textContent = q ? `Searching: "${q}"…` : "Showing latest items…";
+      resultsEl.innerHTML = "";
+
+      const url = `../api/search.php?q=${encodeURIComponent(q)}&limit=60`;
+      const res = await fetch(url, { cache: "no-store" });
+      const data = await res.json();
+
+      if (!res.ok) {
+        statusEl.textContent = "Error: " + (data.message || "search failed");
+        return;
+      }
+
+      statusEl.textContent = `${data.count} result(s)`;
+      if (!data.results || data.results.length === 0) {
+        resultsEl.innerHTML = `<div class="empty">No matches. Try different words (e.g. “sch 40”, “A106”, “elbow”, “DN 50”).</div>`;
+        return;
+      }
+
+      for (const r of data.results) {
+        const div = document.createElement('div');
+        div.className = "card";
+        div.innerHTML = `
+          <div class="row">
+            <div>
+              <div style="font-weight:700">${escapeHtml(r.name || r.sku)}</div>
+              <div class="small">${escapeHtml(r.sku || "")}</div>
+              <div class="meta">
+                ${r.category ? `<span class="pill">${escapeHtml(r.category)}</span>` : ""}
+                ${r.standard ? `<span class="pill">${escapeHtml(r.standard)}</span>` : ""}
+                ${r.subtype ? `<span class="pill">${escapeHtml(r.subtype)}</span>` : ""}
+                ${r.size_primary ? `<span class="pill">${escapeHtml(r.size_primary)}</span>` : ""}
+              </div>
+            </div>
+            <button data-id="${r.id}" style="padding:.6rem .8rem;border-radius:12px;border:1px solid #eee;background:#fff;cursor:pointer">
+              Details
+            </button>
+          </div>
+        `;
+        div.querySelector('button').addEventListener('click', () => openDetails(r.id));
+        resultsEl.appendChild(div);
+      }
+    }
+
+    async function openDetails(id) {
+      const res = await fetch(`../api/product.php?id=${encodeURIComponent(id)}`, { cache: "no-store" });
+      const data = await res.json();
+      if (!res.ok) return alert(data.message || "Could not load product");
+      mTitle.textContent = data.name || data.sku || ("Product " + id);
+      mSub.textContent = [data.category, data.standard, data.subtype, data.size_primary].filter(Boolean).join(" • ");
+      mJson.textContent = JSON.stringify(data, null, 2);
+      modal.showModal();
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+    }
+
+    btn.addEventListener('click', runSearch);
+    qEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') runSearch(); });
+
+    // auto-run if ?q= is provided
+    const params = new URLSearchParams(location.search);
+    if (params.get('q')) qEl.value = params.get('q');
+    runSearch();
+  </script>
+</body>
+</html>
