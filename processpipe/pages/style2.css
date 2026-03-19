@@ -1,3 +1,58 @@
+/* ==============================
+   SHARED HEADER — matches index.html / style.css
+============================== */
+:root {
+  --header-h: 100px;
+}
+body {
+  padding-top: var(--header-h);
+}
+.site-header {
+  height: var(--header-h);
+  overflow: visible;
+}
+.container.header-inner {
+  height: 100%;
+}
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+.site-logo h1,
+.site-logo h2,
+.site-logo span {
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+}
+.logo-image {
+  height: clamp(80px, 10vw, 100px);
+  width: auto;
+  display: block;
+  transition: height .25s ease, transform .25s ease;
+}
+.site-logo:hover .logo-image {
+  transform: scale(1.18);
+}
+@media (max-width: 900px) {
+  :root { --header-h: 75px; }
+}
+@media (max-width: 600px) {
+  :root { --header-h: 62px; }
+}
+/* ============================== */
+
 /* ---- Style sheet for: about, pages, blog, contact ---- */
 
 /* ---- General Reset ---- */

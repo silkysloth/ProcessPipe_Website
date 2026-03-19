@@ -38,6 +38,7 @@ body{
   max-width: 1700px;
   margin: 0 auto;
  
+  padding-left: clamp(18px, 3vw, 40px);
   padding-right: clamp(18px, 3vw, 40px);
 }
 
