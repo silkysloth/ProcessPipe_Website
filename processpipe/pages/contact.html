@@ -7,7 +7,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content="Process Pipe — supplier of pipes, fittings, flanges and tubes." />
 		<meta name="theme-color" content="#0a74da" />
-		<link href="style2.css" rel="stylesheet" type="text/css"> 
+		<link href="style2.css" rel="stylesheet" type="text/css">
+	<style>
+		/* Lower threshold workaround — add scroll-visible immediately on contact page */
+		.animate-on-scroll { opacity: 1 !important; transform: translateY(0) !important; }
+		.contact-header-container { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+		.section-contact-header { background: #fff; }
+	</style>
 	</head>
 	<body>
 		<header class="site-header" role="banner">
@@ -47,27 +53,77 @@
 				</div>
 			</section>
 
-			<section class="section-contact-offices animate-on-scroll">
-				<div class="contact-offices-container">
-					<div class="contact-office">
-						<h3 class="joburg">Process Pipe Co. (PTY) Ltd. – Johannesburg</h3>
-						<p>5 Fuchs Street, Alrode, 1448</p>
-						<p>Office: (011) 609-2066</p>
-						<p>Email: <a href="mailto:Info@processpipejhb.co.za">info@processpipejhb.co.za</a></p>
-						</br>
-						<h3 class="joburg">Process Pipe Coastal (Pty) Ltd.</h3>
-						<h3 class="joburg">Cape Town</h3>
-						<p>5 Neutron Street, Bellville, 7530</p>
-						<p>Tel: (021) 946-3275</p>
-						<p>Email: <a href="mailto:infoct@processpipe.co.za">infoct@processpipe.co.za</a></p>
-						</br>
-						<h3 class="joburg">Durban</h3>
-						<p>12 Beechgate Crecent<br/>South Gate Industrial Park<br/>Umbogwintini<br/>Amanzimtoti, 4126</p>
-						<p>Tel: (031) 468-1211</p>
-						<p>Email: <a href="mailto:info@processpipedbn.co.za">info@processpipedbn.co.za</a></p>
-					</div>
+		<section class="section-contact-offices animate-on-scroll">
+			<div class="contact-offices-container">
+
+				<div class="contact-office">
+					<div class="office-city">Johannesburg</div>
+					<div class="office-company">Process Pipe Co. (PTY) Ltd.</div>
+					<p>5 Fuchs Street, Alrode, 1448</p>
+					<a href ="tel:+27116092066" ><p style="color: #0a74da; text-decoration: none;">Office: (011) 609-2066</p></a>
+					<p>Email: <a href="mailto:Info@processpipejhb.co.za">info@processpipejhb.co.za</a></p>
 				</div>
-			</section>
+
+				<div class="contact-office">
+					<div class="office-city">Cape Town</div>
+					<div class="office-company">Process Pipe Coastal (Pty) Ltd.</div>
+					<p>5 Neutron Street, Bellville, 7530</p>
+					<a href ="tel:+27219463275" ><p style="color: #0a74da; text-decoration: none;">Tel: (021) 946-3275</p></a>
+					<p>Email: <a href="mailto:infoct@processpipe.co.za">infoct@processpipe.co.za</a></p>
+				</div>
+
+				<div class="contact-office">
+					<div class="office-city">Durban</div>
+					<p>12 Beechgate Crescent<br/>South Gate Industrial Park<br/>Umbogwintini<br/>Amanzimtoti, 4126</p>
+					<a href ="tel:+27314681211" ><p style="color: #0a74da; text-decoration: none;">Tel: (031) 468-1211</p></a>
+					<p>Email: <a href="mailto:info@processpipedbn.co.za">info@processpipedbn.co.za</a></p>
+				</div>
+
+			</div>
+		</section>
+
+		<style>
+			.contact-offices-container {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 1rem;
+				max-width: 1400px;
+				margin: 0 auto;
+				
+			}
+			.contact-office {
+				background: #fff;
+				border: 1.5px solid #e2e8f0;
+				border-radius: 10px;
+				padding: 2.5rem 5.2rem;
+				box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+				box-sizing: border-box;
+			}
+			@media (max-width: 768px) {
+				.contact-offices-container { grid-template-columns: 1fr; }
+			}
+			.office-city {
+				font-size: 1.6rem;
+				font-weight: 800;
+				color: #0d1c2e;
+				margin-bottom: 0.2rem;
+				line-height: 1.1;
+			}
+			.office-company {
+				font-size: 0.85rem;
+				font-weight: 600;
+				color: #0a74da;
+				margin-bottom: 1rem;
+			}
+			.contact-office p {
+				font-size: 0.9rem;
+				color: #444;
+				margin: 0.3rem 0;
+				line-height: 1.7;
+			}
+			.contact-office a { color: #0a74da; text-decoration: none; }
+			.contact-office a:hover { text-decoration: underline; }
+		</style>
 
 			<section class="section-contact-form animate-on-scroll">
 				<div class="contact-form-container">
@@ -100,6 +156,33 @@
 				</div>
 			</div>
 		</footer>
+		<style>
+			.section-contact-form {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 2rem 1.5rem;
+				margin-bottom: 3rem;
+			}
+			.contact-form-container {
+				padding: 1.75rem 2rem;
+				background: #fff;
+				border: 1.5px solid #e2e8f0;
+				border-radius: 14px;
+				box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+			}
+			.contact-form-container h3 {
+				font-size: 1.2rem;
+				margin-bottom: 1.25rem;
+			}
+			.contact-form input,
+			.contact-form textarea {
+				width: 100%;
+				font-size: 0.9rem;
+				padding: 0.6rem 0.85rem;
+				box-sizing: border-box;
+			}
+			.contact-form textarea { min-height: 100px; }
+		</style>
 		<script src="script2.js" defer></script>
 	</body>
 </html>

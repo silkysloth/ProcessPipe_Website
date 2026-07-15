@@ -1,119 +1,374 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Process Pipe</title>
+  <title>Pipes — Process Pipe</title>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Process Pipe — supplier of pipes, fittings, flanges and tubes." />
+  <meta name="description" content="Process Pipe — supplier of seamless, welded and galvanised pipes." />
   <meta name="theme-color" content="#0a74da" />
   <link href="style3.css" rel="stylesheet" type="text/css">
+
+  <style>
+    /* ─── RESET page bg just for this page ─────────────────── */
+    body.pipes-page {
+      background: #f5f7fa !important;
+    }
+
+    /* ─── HERO ──────────────────────────────────────────────── */
+    .pipes-hero {
+      position: relative;
+      width: 100%;
+      height: 320px;
+      background: url('../images/hero.jpg') center center / cover no-repeat;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+    .pipes-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(5,20,40,0.3) 0%, rgba(5,20,40,0.78) 100%);
+    }
+    .pipes-hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 2rem 2rem 2.25rem;
+      color: #fff;
+      max-width: 680px;
+    }
+    .pipes-hero-content h1 {
+      font-size: clamp(1.7rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin: 0 0 0.45rem;
+      line-height: 1.15;
+    }
+    .pipes-hero-content p {
+      font-size: 1rem;
+      opacity: 0.88;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* ─── BROWSE SECTION ────────────────────────────────────── */
+    .browse-section {
+      background: #fff;
+      padding: 2rem 0 2.25rem;
+    }
+    .browse-section .container {
+      background: transparent !important;
+    }
+    .browse-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888;
+      margin: 0 0 1rem;
+    }
+    .cat-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+    .cat-card {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.4rem 1.25rem 1.2rem;
+      cursor: pointer;
+      background: #fff;
+      transition: border-color 0.18s, box-shadow 0.18s, transform 0.15s;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .cat-card:hover {
+      border-color: #0a74da;
+      box-shadow: 0 6px 20px rgba(10,116,218,0.13);
+      transform: translateY(-2px);
+    }
+    .cat-card-icon { font-size: 1.5rem; line-height: 1; }
+    .cat-card-title { font-size: 1rem; font-weight: 700; color: #0d1c2e; }
+    .cat-card-desc  { font-size: 0.82rem; color: #667; line-height: 1.45; }
+    .cat-card-arrow { margin-top: 0.5rem; font-size: 0.82rem; color: #0a74da; font-weight: 600; }
+
+    /* Welded card has sub-labels */
+    .cat-card-subs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+    .cat-card-sub-chip {
+      font-size: 0.85rem;
+      background: #eef4fd;
+      color: #0a74da;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .cat-card-sub-chip:hover {
+      background: #0a74da;
+      color: #fff;
+    }
+
+    /* ─── DOWNLOAD BAR ───────────────────────────────────────── */
+    .dl-bar {
+      background: #fff;
+      border-top: 1.5px solid #e8edf3;
+      padding: 0.75rem 0;
+    }
+    .dl-bar .container {
+      background: transparent !important;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .dl-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #0a74da;
+      color: #fff !important;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 9px 20px;
+      border-radius: 7px;
+      transition: background 0.15s;
+    }
+    .dl-btn:hover { background: #0859b0; }
+
+    /* ─── PRODUCTS SECTION ───────────────────────────────────── */
+    .products-section {
+      background: #fff;
+      border-top: 2px solid #e2e8f0;
+      padding: 0;
+    }
+
+    /* Sub-tab bar inside products section */
+    .sub-tab-bar {
+      display: none;
+      background: #f4f7fb;
+      border-bottom: 1.5px solid #e2e8f0;
+      padding: 0.6rem 1.5rem;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .sub-tab-bar.visible { display: flex; }
+
+    .sub-tab-bar .back-btn {
+      font-size: 0.8rem;
+      color: #667;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 0;
+      margin-right: 8px;
+      font-weight: 500;
+    }
+    .sub-tab-bar .back-btn:hover { color: #0a74da; }
+
+    .stab {
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 6px;
+      border: 1.5px solid #c8d8ee;
+      background: #fff;
+      color: #0a74da;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .stab:hover, .stab.active {
+      background: #0a74da;
+      color: #fff;
+      border-color: #0a74da;
+    }
+
+    .products-inner {
+      padding: 1.75rem 2rem 2.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .tab-panel h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0d1c2e;
+      margin: 0 0 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid #e8edf3;
+    }
+
+    @media (max-width: 600px) {
+      .pipes-hero { height: 200px; }
+      .products-inner { padding: 1.25rem 1rem 2rem; }
+    }
+
+    /* ── Schedule chips on seamless cards ───────────────────── */
+    .seamless-card { cursor: default; }
+    .sch-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #999;
+      margin-top: 0.75rem;
+      margin-bottom: 0.35rem;
+    }
+    .sch-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .sch-chip {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 5px;
+      background: #eef4fd;
+      color: #0a74da;
+      border: 1px solid #c8d8ee;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+    .sch-chip:hover {
+      background: #0a74da;
+      color: #fff;
+      border-color: #0a74da;
+    }
+    /* Fix OD value truncation in spec boxes */
+    .spec-v { word-break: break-word; white-space: normal; }
+  </style>
 </head>
 
 <body class="pipes-page">
 
   <header class="site-header" role="banner">
     <div class="container header-inner">
-      <a href="../index.html" class="site-logo"><img src="../images/processpipelogo.png" alt="Process Pipe Logo" class="logo-image">Process Pipe</a>
-
+      <a href="../index.html" class="site-logo">
+        <img src="../images/processpipelogo.png" alt="Process Pipe Logo" class="logo-image">Process Pipe
+      </a>
       <button class="menu-toggle" aria-expanded="false" aria-controls="nav-list" aria-label="Menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
       </button>
-
       <nav class="primary-nav" role="navigation" aria-label="Main navigation">
         <ul class="nav-list" id="nav-list">
           <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
           <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-
           <li class="nav-item dropdown">
             <a href="pages.html" class="nav-link dropdown-toggle">Pages ▾</a>
             <ul class="dropdown-menu">
               <li><a href="pipes.html">Pipes</a></li>
               <li><a href="flanges.html">Flanges</a></li>
               <li><a href="fittings.html">Fittings</a></li>
-              
             </ul>
           </li>
-
           <li class="nav-item"><a href="contact.html" class="nav-link">Contact Us</a></li>
         </ul>
       </nav>
-
-      <a id="back-link" href="../index.html" class="header-backlink">← Back to search</a>
     </div>
   </header>
 
   <main>
 
-    <section class="product-search-section">
+    <!-- ── HERO ─────────────────────────────────────────────── -->
+    <div class="pipes-hero">
+      <div class="pipes-hero-content">
+        <h1>Pipes</h1>
+        <p>Seamless, welded and galvanised pipe across a wide range of sizes and standards.</p>
+      </div>
+    </div>
+
+    <!-- ── BROWSE BY TYPE ────────────────────────────────────── -->
+    <section class="browse-section">
       <div class="container">
-        
-        <p style="opacity:.75;margin-top:6px;">Browse by category tabs below.</p>
+        <p class="browse-label">Browse by type</p>
+        <div class="cat-cards">
+
+          <button class="cat-card" data-jump="seamless">
+            <div class="cat-card-icon"></div>
+            <div class="cat-card-title">Seamless Pipe</div>
+            <div class="cat-card-desc">Manufactured without a weld seam for high-pressure and critical applications.</div>
+            <div class="cat-card-arrow">Browse Seamless →</div>
+          </button>
+
+          <button class="cat-card" data-jump="welded">
+            <div class="cat-card-icon"></div>
+            <div class="cat-card-title">Welded Pipe</div>
+            <div class="cat-card-desc">ERW and SAW welded pipe to South African standards.</div>
+            <div class="cat-card-subs">
+              <span class="cat-card-sub-chip" data-jump="sans62">SANS 62</span>
+              <span class="cat-card-sub-chip" data-jump="sans719">SANS 719</span>
+              <span class="cat-card-sub-chip" data-jump="galvanised">Galvanised Pipe</span>
+            </div>
+            <div class="cat-card-arrow">Browse All Welded →</div>
+          </button>
+
+        </div>
       </div>
     </section>
 
-    <!-- CATEGORY TABS — now above the PDF -->
-    <section class="container">
+    <!-- ── DOWNLOAD BAR ───────────────────────────────────────── -->
+    <div class="dl-bar">
+      <div class="container">
+        <a href="pdfs/ProcessPipe-Pipes.pdf" download="ProcessPipe-Pipes.pdf" class="dl-btn">
+          ⬇ Download Catalogue
+        </a>
+      </div>
+    </div>
 
-      <div class="tabs-wrap">
-        <div class="tabs" role="tablist" aria-label="Product categories">
-          <button type="button" class="tab" data-tab="seamless" role="tab">Seamless</button>
-          <button type="button" class="tab" data-tab="welded" role="tab">Welded</button>
-          <button type="button" class="tab" data-tab="sans62" role="tab">SANS 62</button>
-          <button type="button" class="tab" data-tab="sans719" role="tab">SANS 719</button>
+    <!-- ── PRODUCTS ──────────────────────────────────────────── -->
+    <section class="products-section" id="products-section" style="display:none;">
 
-          <!-- Back to PDF button -->
-          
-        </div>
+      <!-- Sub-tab bar (only shown for welded family) -->
+      <div class="sub-tab-bar" id="welded-sub-tabs">
+        <button class="back-btn" id="back-to-browse">← All categories</button>
+        <button class="stab" data-stab="welded">All Welded</button>
+        <button class="stab" data-stab="sans62">SANS 62</button>
+        <button class="stab" data-stab="sans719">SANS 719</button>
+        <button class="stab" data-stab="galvanised">Galvanised Pipe</button>
       </div>
 
-      <!-- PRODUCTS VIEW (hidden until tab click) -->
-      <section id="products-view" style="display:none;">
+      <div class="products-inner">
         <section class="tab-panel" data-panel="seamless">
           <h2>Seamless Pipes</h2>
           <div class="product-grid-cards" data-list="seamless"></div>
         </section>
-
         <section class="tab-panel" data-panel="welded">
           <h2>Welded Pipes</h2>
           <div class="product-grid-cards" data-list="welded"></div>
         </section>
-
         <section class="tab-panel" data-panel="sans62">
-          <h2>SANS 62</h2>
+          <h2>Welded Pipe — SANS 62</h2>
           <div class="product-grid-cards" data-list="sans62"></div>
         </section>
-
         <section class="tab-panel" data-panel="sans719">
-          <h2>SANS 719</h2>
+          <h2>Welded Pipe — SANS 719</h2>
           <div class="product-grid-cards" data-list="sans719"></div>
         </section>
-      </section>
-
-    </section>
-
-    <!-- PDF VIEW (shown by default, hidden when a tab is active) -->
-    <section id="pdf-view" class="section-pdf animate-on-scroll" style="max-width:1780px;margin:20px auto;">
-      <h2 class="pdf-title">Pipes Catalog</h2>
-      <div class="pdf-container">
-        <iframe
-          src="pdfs/ProcessPipe-Pipes.pdf"
-          frameborder="0"
-          class="pdf-iframe"
-          style="width:100%;height:80vh;border-radius:14px;box-shadow:0 10px 28px rgba(0,0,0,.18);">
-        </iframe>
+        <section class="tab-panel" data-panel="galvanised">
+          <h2>Galvanised Pipes</h2>
+          <div class="product-grid-cards" data-list="galvanised"></div>
+        </section>
       </div>
+
     </section>
 
   </main>
 
   <footer class="site-footer">
     <div class="footer-container">
-      <div class="footer-contact">
-        <p>&copy; Process Pipe</p>
-      </div>
+      <div class="footer-contact"><p>&copy; Process Pipe</p></div>
       <div class="footer-quicklinks">
         <ul>
           <li><a href="../index.html">Home</a></li>
@@ -130,108 +385,38 @@
   <script>
   document.addEventListener("DOMContentLoaded", () => {
 
-    // Prefer going back to the page you came from (if any)
-    (function setBackLink(){
-      const back = document.getElementById("back-link");
-      if (!back) return;
-      const ref = document.referrer || "";
-      if (ref && ref.includes(window.location.host)) back.href = ref;
-    })();
+    // ── DOM refs ───────────────────────────────────────────────
+    const productsSection = document.getElementById("products-section");
+    const weldedSubTabs   = document.getElementById("welded-sub-tabs");
+    const panels          = document.querySelectorAll(".tab-panel[data-panel]");
+    const stabs           = document.querySelectorAll(".stab[data-stab]");
+    const weldedFamily    = new Set(["welded", "sans62", "sans719", "galvanised"]);
 
-    // Views
-    const pdfView = document.getElementById("pdf-view");
-    const productsView = document.getElementById("products-view");
-    const backToPdfBtn = document.getElementById("back-to-pdf");
-
-    function showPdf(){
-      if (pdfView) pdfView.style.display = "";
-      if (productsView) productsView.style.display = "none";
-      document.querySelectorAll(".tabs .tab").forEach(b => b.classList.remove("active"));
-      document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
-    }
-
-    function showProducts(){
-      if (pdfView) pdfView.style.display = "none";
-      if (productsView) productsView.style.display = "";
-    }
-
-    // Default: show PDF
-    showPdf();
-
-    if (backToPdfBtn){
-      backToPdfBtn.addEventListener("click", showPdf);
-    }
-
-    // Tabs
-    const tabs = document.querySelectorAll(".tabs .tab[data-tab]");
-    const panels = document.querySelectorAll(".tab-panel[data-panel]");
-
-    function setActive(key){
-      document.querySelectorAll(".tabs .tab[data-tab]").forEach(btn => {
-        const on = btn.dataset.tab === key;
-        btn.classList.toggle("active", on);
-        btn.setAttribute("aria-selected", on ? "true" : "false");
-      });
-
-      panels.forEach(p => {
-        const show = p.dataset.panel === key;
-        p.classList.toggle("active", show);
-      });
-    }
-
-    // Load products once
-    let PRODUCT_CACHE = null;
-
-    async function loadProducts(){
-      if (PRODUCT_CACHE) return PRODUCT_CACHE;
-
-      const res = await fetch("../data/search-index.json", { cache: "force-cache" });
-      if (!res.ok) {
-        console.error("❌ Could not load ../data/search-index.json", res.status);
-        return [];
-      }
-
-      const data = await res.json();
-      PRODUCT_CACHE = data;
-      return data;
-    }
-
-    // Helpers
+    // ── Helpers ────────────────────────────────────────────────
     const norm = v => String(v ?? "").toLowerCase();
 
-    const flatten = raw =>
-      (Array.isArray(raw) ? raw : [])
-        .flatMap(p => Array.isArray(p.items) ? p.items : [p])
-        .filter(Boolean);
+    const isGalvanised = p =>
+      norm(p.description).includes("galvan") ||
+      norm(p.standard || "").includes("galvan") ||
+      norm(p.finish   || "").includes("galvan");
 
-    const isPipe     = p => norm(p.category) === "pipe";
-    const isSans62   = p => norm(p.standard).includes("sans 62");
-    const isSans719  = p => norm(p.standard).includes("sans 719");
-    const isWelded   = p => norm(p.description).includes("weld");
-    const isSeamless = p => norm(p.description).includes("seamless");
+    // Field accessors — handles both old flat keys and new camelCase keys
+    const getNB  = p => p.nominal_bore   || p["nominal bore"]   || p["nominal diameter"] || p.size || "—";
+    const getOD  = p => p.outside_diameter || p["outside diameter"] || p.outside_diameter_mm || "—";
+    const getNPS = p => p.nps || "—";
 
-    const getSize = p => p["nominal bore"] || p["nominal diameter"] || p.size || "—";
-    const getOD   = p => p["outside diameter"] || p.outside_diameter_mm || p.outside_diameter || "—";
-
-    function detailsLink(p){
-      return `product.html?id=${encodeURIComponent(p.id)}`;
-    }
-
+    // ── Standard card (welded, galvanised) ─────────────────────
     function cardHTML(p){
       const std  = p.standard || "—";
       const desc = p.description || "Product";
-      const od   = getOD(p);
-      const nb   = getSize(p);
-      const nps  = p.nps || "—";
-
-      const d = String(desc).toLowerCase();
+      const d    = norm(desc);
       const type =
         d.includes("seamless") ? "Seamless" :
         d.includes("weld") || d.includes("erw") ? "Welded" :
-        "Pipe";
+        d.includes("galvan") ? "Galvanised" : "Pipe";
 
       return `
-        <a class="prod-card" href="${detailsLink(p)}" aria-label="${std} ${desc}">
+        <a class="prod-card" href="product.html?id=${encodeURIComponent(p.id)}" aria-label="${std} ${desc}">
           <div class="prod-head">
             <div class="prod-chips">
               <span class="chip chip-std">${std}</span>
@@ -239,59 +424,340 @@
             </div>
             <div class="prod-title">${desc}</div>
           </div>
-
           <div class="prod-specs">
-            <div class="spec">
-              <span class="spec-k">NB/DN</span>
-              <span class="spec-v">${nb}</span>
-            </div>
-            <div class="spec">
-              <span class="spec-k">OD</span>
-              <span class="spec-v">${od}</span>
-            </div>
-            <div class="spec">
-              <span class="spec-k">NPS</span>
-              <span class="spec-v">${nps}</span>
-            </div>
+            <div class="spec"><span class="spec-k">Nominal Bore</span><span class="spec-v">${getNB(p)} mm</span></div>
+            <div class="spec"><span class="spec-k">Outside Diameter</span><span class="spec-v">${getOD(p)} mm</span></div>
+            <div class="spec"><span class="spec-k">Nominal Pipe Size</span><span class="spec-v">${getNPS(p)}</span></div>
           </div>
-
           <div class="prod-foot">
             <span class="muted">${p.category || ""}</span>
             <span class="cta">View details →</span>
           </div>
-        </a>
-      `;
+        </a>`;
+    }
+
+    // ── Seamless grouped card (one card per NPS, chips per schedule) ──
+    function seamlessGroupedHTML(npsGroup){
+      const first = npsGroup[0];
+      const nb    = getNB(first);
+      const od    = getOD(first);
+      const nps   = getNPS(first);
+      const schChips = npsGroup.map(p =>
+        `<a class="sch-chip" href="pipe-product.html?id=${encodeURIComponent(p.id)}">${p.schedule}</a>`
+      ).join("");
+
+      return `
+        <div class="prod-card seamless-card">
+          <div class="prod-head">
+            <div class="prod-chips">
+              <span class="chip chip-std">ASTM A106 B</span>
+              <span class="chip chip-type">Seamless</span>
+            </div>
+            <div class="prod-title">Seamless Pipe — ${nb} mm</div>
+          </div>
+          <div class="prod-specs">
+            <div class="spec"><span class="spec-k">Nominal Bore</span><span class="spec-v">${nb} mm</span></div>
+            <div class="spec"><span class="spec-k">Outside Diameter</span><span class="spec-v">${od} mm</span></div>
+            <div class="spec"><span class="spec-k">Nominal Pipe Size</span><span class="spec-v">${nps}</span></div>
+          </div>
+          <div class="sch-label">Available schedules</div>
+          <div class="sch-chips">${schChips}</div>
+        </div>`;
+    }
+
+    // ── SANS 62 grouped card (one card per NB, Medium + Heavy chips) ──
+    function sans62GroupedHTML(nbGroup){
+      const first = nbGroup[0];
+      const nb    = first.nominal_bore;
+      const od    = first.outside_diameter;
+      const nps   = first.nps || "—";
+      const chips = nbGroup.map(p =>
+        `<a class="sch-chip" href="pipe-product.html?id=${encodeURIComponent(p.id)}">${p.grade}</a>`
+      ).join("");
+
+      return `
+        <div class="prod-card seamless-card">
+          <div class="prod-head">
+            <div class="prod-chips">
+              <span class="chip chip-std">SANS 62</span>
+              <span class="chip chip-type">Welded</span>
+            </div>
+            <div class="prod-title">Welded Pipe — ${nb} mm</div>
+          </div>
+          <div class="prod-specs">
+            <div class="spec"><span class="spec-k">Nominal Bore</span><span class="spec-v">${nb} mm</span></div>
+            <div class="spec"><span class="spec-k">Outside Diameter</span><span class="spec-v">${od} mm</span></div>
+            <div class="spec"><span class="spec-k">Nominal Pipe Size</span><span class="spec-v">${nps}</span></div>
+          </div>
+          <div class="sch-label">Available grades</div>
+          <div class="sch-chips">${chips}</div>
+        </div>`;
+    }
+
+    // ── Galvanised card (one card per NB, single WT) ───────────
+    function galvanisedGroupedHTML(nbGroup){
+      const p   = nbGroup[0];
+      const nb  = p.nominal_bore;
+      const od  = p.outside_diameter;
+      const nps = p.nps || "—";
+      const wt  = p.wall_thickness_mm;
+      const mass = p.mass_kg_per_m;
+
+      return `
+        <a class="prod-card" href="pipe-product.html?id=${encodeURIComponent(p.id)}">
+          <div class="prod-head">
+            <div class="prod-chips">
+              <span class="chip chip-std">BS 1387</span>
+              <span class="chip chip-type">Galvanised</span>
+            </div>
+            <div class="prod-title">Galvanised Pipe — ${nb} mm</div>
+          </div>
+          <div class="prod-specs">
+            <div class="spec"><span class="spec-k">Nominal Bore</span><span class="spec-v">${nb} mm</span></div>
+            <div class="spec"><span class="spec-k">Outside Diameter</span><span class="spec-v">${od} mm</span></div>
+            <div class="spec"><span class="spec-k">Wall Thickness</span><span class="spec-v">${wt} mm</span></div>
+            <div class="spec"><span class="spec-k">Mass</span><span class="spec-v">${mass} kg/m</span></div>
+          </div>
+          <div class="prod-foot">
+            <span class="muted">Pipe</span>
+            <span class="cta">View details →</span>
+          </div>
+        </a>`;
+    }
+    function sans719GroupedHTML(nbGroup){
+      const first = nbGroup[0];
+      const nb    = first.nominal_bore;
+      const od    = first.outside_diameter;
+      const nps   = first.nps || "—";
+      const chips = nbGroup.map(p =>
+        `<a class="sch-chip" href="pipe-product.html?id=${encodeURIComponent(p.id)}">${p.wall_thickness_mm} mm</a>`
+      ).join("");
+
+      return `
+        <div class="prod-card seamless-card">
+          <div class="prod-head">
+            <div class="prod-chips">
+              <span class="chip chip-std">SANS 719</span>
+              <span class="chip chip-type">Welded</span>
+            </div>
+            <div class="prod-title">Welded Pipe — ${nb} mm</div>
+          </div>
+          <div class="prod-specs">
+            <div class="spec"><span class="spec-k">Nominal Bore</span><span class="spec-v">${nb} mm</span></div>
+            <div class="spec"><span class="spec-k">Outside Diameter</span><span class="spec-v">${od} mm</span></div>
+            <div class="spec"><span class="spec-k">Nominal Pipe Size</span><span class="spec-v">${nps}</span></div>
+          </div>
+          <div class="sch-label">Available wall thicknesses</div>
+          <div class="sch-chips">${chips}</div>
+        </div>`;
     }
 
     function render(listName, items){
       const mount = document.querySelector(`[data-list="${listName}"]`);
       if (!mount) return;
 
-      mount.innerHTML = items.length
-        ? items.map(cardHTML).join("")
-        : `<div class="empty-state">No products found.</div>`;
+      if (listName === "seamless"){
+        const npsOrder = ['1/8"','1/4"','3/8"','1/2"','3/4"','1"','1 1/4"','1 1/2"','2"','2 1/2"','3"','3 1/2"','4"','5"','6"','8"','10"','12"','14"','16"','18"','20"','22"','24"','26"','28"','30"','32"','34"','36"','38"','40"','42"','44"'];
+        const grouped = {};
+        items.forEach(p => {
+          const k = getNPS(p);
+          if (!grouped[k]) grouped[k] = [];
+          grouped[k].push(p);
+        });
+        const html = npsOrder
+          .filter(k => grouped[k])
+          .map(k => seamlessGroupedHTML(grouped[k]))
+          .join("");
+        mount.innerHTML = html || `<div class="empty-state">No products found.</div>`;
+
+      } else if (listName === "sans62" || listName === "welded"){
+        const nbOrder = ["6","8","10","15","20","25","32","40","50","65","80","100","125","150",
+                         "200","250","300","350","400","500","600","700","800","900","1000"];
+
+        if (listName === "welded") {
+          // For All Welded, group by standard first, then NB within each standard
+          const byStandard = {};
+          items.forEach(p => {
+            const std = p.standard;
+            if (!byStandard[std]) byStandard[std] = {};
+            const k = p.nominal_bore;
+            if (!byStandard[std][k]) byStandard[std][k] = [];
+            byStandard[std][k].push(p);
+          });
+          const stdOrder = ["SANS 62", "SANS 719", "BS 1387"];
+          let html = "";
+          for (const std of stdOrder) {
+            if (!byStandard[std]) continue;
+            html += Object.entries(byStandard[std])
+              .sort((a, b) => parseInt(a[0]) - parseInt(b[0]))
+              .map(([k, group]) => {
+                if (std === "SANS 719") return sans719GroupedHTML(group);
+                if (std === "BS 1387")  return galvanisedGroupedHTML(group);
+                return sans62GroupedHTML(group);
+              }).join("");
+          }
+          mount.innerHTML = html || `<div class="empty-state">No products found.</div>`;
+
+        } else {
+          // SANS 62 tab — just show SANS 62
+          const grouped = {};
+          items.forEach(p => {
+            const k = p.nominal_bore;
+            if (!grouped[k]) grouped[k] = [];
+            grouped[k].push(p);
+          });
+          const html = nbOrder
+            .filter(k => grouped[k])
+            .map(k => sans62GroupedHTML(grouped[k]))
+            .join("");
+          mount.innerHTML = html || `<div class="empty-state">No products found.</div>`;
+        }
+
+      } else if (listName === "sans719"){
+        const nbOrder719 = ["200","250","300","350","400","500","600","700","800","900","1000"];
+        const grouped719 = {};
+        items.forEach(p => {
+          const k = p.nominal_bore;
+          if (!grouped719[k]) grouped719[k] = [];
+          grouped719[k].push(p);
+        });
+        const html719 = nbOrder719
+          .filter(k => grouped719[k])
+          .map(k => sans719GroupedHTML(grouped719[k]))
+          .join("");
+        mount.innerHTML = html719 || `<div class="empty-state">No products found.</div>`;
+
+      } else if (listName === "galvanised"){
+        const nbOrderGalv = ["15","20","25","32","40","50","65","80","100","125","150"];
+        const groupedGalv = {};
+        items.forEach(p => {
+          const k = p.nominal_bore;
+          if (!groupedGalv[k]) groupedGalv[k] = [];
+          groupedGalv[k].push(p);
+        });
+        const htmlGalv = nbOrderGalv
+          .filter(k => groupedGalv[k])
+          .map(k => galvanisedGroupedHTML(groupedGalv[k]))
+          .join("");
+        mount.innerHTML = htmlGalv || `<div class="empty-state">No products found.</div>`;
+
+      } else {
+        mount.innerHTML = items.length
+          ? items.map(cardHTML).join("")
+          : `<div class="empty-state">No products found.</div>`;
+      }
     }
 
-    let ALL_PIPES = [];
+    // ── URL state helpers ────────────────────────────────────────
+    // Reflect the active panel in the URL (?panel=seamless) so that
+    // navigating to pipe-product.html and pressing the browser Back
+    // button — or this page's own history.back() — returns to the
+    // same tab instead of resetting to the category browser.
+    function setPanelInURL(key){
+      const url = new URL(window.location.href);
+      if (key) {
+        url.searchParams.set("panel", key);
+      } else {
+        url.searchParams.delete("panel");
+      }
+      history.replaceState(null, "", url);
+    }
+
+    function getPanelFromURL(){
+      return new URLSearchParams(window.location.search).get("panel");
+    }
+
+    // ── Show a panel ───────────────────────────────────────────
+    function showPanel(key, opts = {}){
+      // Show products section
+      productsSection.style.display = "";
+
+      // Show/hide welded sub-tab bar
+      const isWeldedFam = weldedFamily.has(key);
+      weldedSubTabs.classList.toggle("visible", isWeldedFam);
+
+      // Activate correct stab
+      stabs.forEach(s => s.classList.toggle("active", s.dataset.stab === key));
+
+      // Activate correct panel
+      panels.forEach(p => p.classList.toggle("active", p.dataset.panel === key));
+
+      // Keep the URL in sync so Back can restore this exact tab
+      setPanelInURL(key);
+
+      // Scroll to products, unless we're silently restoring on page load
+      if (!opts.silent) {
+        productsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    // ── Back to browse ─────────────────────────────────────────
+    document.getElementById("back-to-browse")?.addEventListener("click", () => {
+      productsSection.style.display = "none";
+      weldedSubTabs.classList.remove("visible");
+      panels.forEach(p => p.classList.remove("active"));
+      stabs.forEach(s => s.classList.remove("active"));
+      setPanelInURL(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // ── Sub-tab clicks ─────────────────────────────────────────
+    stabs.forEach(s => {
+      s.addEventListener("click", () => showPanel(s.dataset.stab));
+    });
+
+    // ── Category card clicks ───────────────────────────────────
+    document.querySelectorAll(".cat-card[data-jump]").forEach(card => {
+      card.addEventListener("click", () => showPanel(card.dataset.jump));
+    });
+
+    // ── Sub-chip clicks (jump direct to that sub-panel) ────────
+    document.querySelectorAll(".cat-card-sub-chip[data-jump]").forEach(chip => {
+      chip.addEventListener("click", (e) => {
+        e.stopPropagation(); // don't also fire the card click
+        showPanel(chip.dataset.jump);
+      });
+    });
+
+    // ── Load individual data files ─────────────────────────────
+    async function loadJSON(path){
+      try {
+        const res = await fetch(path, { cache: "no-cache" });
+        if (!res.ok){ console.error(`❌ Could not load ${path}`, res.status); return []; }
+        return await res.json();
+      } catch(e) {
+        console.error(`❌ Failed to fetch ${path}:`, e);
+        return [];
+      }
+    }
 
     (async () => {
-      const raw = await loadProducts();
-      ALL_PIPES = flatten(raw).filter(isPipe);
+      const [seamless, sans62, sans719, galvanised] = await Promise.all([
+        loadJSON("../data/pipes/seamless.json"),
+        loadJSON("../data/pipes/sans62.json"),
+        loadJSON("../data/pipes/sans719.json"),
+        loadJSON("../data/pipes/galvinsed.json"),
+      ]);
 
-      render("seamless", ALL_PIPES.filter(isSeamless));
-      render("welded",   ALL_PIPES.filter(isWelded));
-      render("sans62",   ALL_PIPES.filter(isSans62));
-      render("sans719",  ALL_PIPES.filter(isSans719));
+      render("seamless",   seamless);
+      render("sans62",     sans62);
+      render("sans719",    sans719);
+      render("galvanised", galvanised);
+      render("welded",     [...sans62, ...sans719, ...galvanised]);
+
+      // ── Restore panel from URL (e.g. after Back from pipe-product.html) ──
+      const restoredPanel = getPanelFromURL();
+      if (restoredPanel) {
+        showPanel(restoredPanel, { silent: true });
+      }
     })();
 
-    // On tab click: show products + activate correct panel
-    tabs.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const key = btn.dataset.tab;
-        if (!key) return;
-        showProducts();
-        setActive(key);
-      });
+    // ── Restore panel when navigating via bfcache/back-forward too ─────
+    window.addEventListener("pageshow", (e) => {
+      const restoredPanel = getPanelFromURL();
+      if (restoredPanel && productsSection.style.display === "none") {
+        showPanel(restoredPanel, { silent: true });
+      }
     });
 
   });

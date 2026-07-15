@@ -6,6 +6,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Process Pipe — supplier of pipes, fittings, flanges and tubes." />
     <link href="style.css" rel="stylesheet" type="text/css">
+    <style>
+        .product-search-section { position: relative; }
+        #product-results {
+            margin-top: 1rem;
+            display: grid;
+            gap: .75rem;
+        }
+        #product-results .search-card {
+            border: 1px solid #eee;
+            border-radius: 14px;
+            padding: 1rem;
+            background: #fff;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            cursor: pointer;
+            transition: box-shadow .15s;
+        }
+        #product-results .search-card:hover {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        #product-results .meta {
+            display: flex;
+            gap: .5rem;
+            flex-wrap: wrap;
+            margin-top: .35rem;
+            opacity: .85;
+        }
+        #product-results .pill {
+            font-size: .8rem;
+            padding: .15rem .5rem;
+            border-radius: 999px;
+            border: 1px solid #eee;
+        }
+        #product-results .small {
+            font-size: .85rem;
+            opacity: .75;
+        }
+        #product-results .empty,
+        #product-results .status {
+            padding: .75rem 1rem;
+            font-size: .9rem;
+            opacity: .8;
+        }
+        #product-results .see-all {
+            text-align: center;
+            padding: .5rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -55,7 +105,7 @@
     <section class="product-search-section">
         <div class="container">
             <h2>Search Products</h2>
-            <input id="product-search" type="text" placeholder="Search pipes, sizes, standards..." />
+            <input id="product-search" type="text" placeholder="Search pipes, sizes, standards..." autocomplete="off" />
             <div id="product-results"></div>
         </div>
     </section>
@@ -90,5 +140,137 @@
 		</footer>
 
 <script src="script.js" defer></script>
+<script>
+  // --- Homepage live product search.
+  // Loads the same per-type JSON files used by pages/search.html and
+  // pages/pipe-product.html, and links results straight to pipe-product.html.
+  (function () {
+    const DATA_FILES = [
+      "data/pipes/sans62.json",
+      "data/pipes/sans719.json",
+      "data/pipes/seamless.json",
+      "data/pipes/galvinsed.json"
+    ];
+
+    const searchEl = document.getElementById('product-search');
+    const resultsEl = document.getElementById('product-results');
+
+    let ALL_ITEMS = [];
+    let loadError = null;
+    let debounceTimer = null;
+
+    async function loadAllData() {
+      try {
+        const responses = await Promise.all(
+          DATA_FILES.map(url => fetch(url, { cache: "no-store" }))
+        );
+        const missing = responses.filter(r => !r.ok);
+        if (missing.length) {
+          throw new Error("Could not load: " + missing.map(r => r.url).join(", "));
+        }
+        const datasets = await Promise.all(responses.map(r => r.json()));
+        ALL_ITEMS = datasets.flat();
+      } catch (err) {
+        loadError = err;
+        console.error("Product search data failed to load:", err);
+      }
+    }
+
+    function normalize(str) {
+      return String(str ?? "").toLowerCase();
+    }
+
+    function matchesQuery(item, query) {
+      const tokens = normalize(query).split(/\s+/).filter(Boolean);
+      if (!tokens.length) return false;
+      const haystack = normalize([
+        item.keywords,
+        item.description,
+        item.category,
+        item.standard,
+        item.grade,
+        item.schedule,
+        item.nps,
+        item.nominal_bore,
+        item.outside_diameter
+      ].filter(Boolean).join(" "));
+      return tokens.every(tok => haystack.includes(tok));
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+    }
+
+    function renderResults(query) {
+      resultsEl.innerHTML = "";
+
+      if (!query) return;
+
+      if (loadError) {
+        resultsEl.innerHTML = `<div class="empty">Search is temporarily unavailable.</div>`;
+        return;
+      }
+
+      const results = ALL_ITEMS.filter(item => matchesQuery(item, query));
+
+      if (results.length === 0) {
+        resultsEl.innerHTML = `<div class="empty">No matches. Try different words (e.g. "sch 40", "A106", "galvanised", "DN 50").</div>`;
+        return;
+      }
+
+      const LIMIT = 8;
+      const shown = results.slice(0, LIMIT);
+
+      resultsEl.innerHTML = `<div class="status">${results.length} result(s)</div>`;
+
+      for (const r of shown) {
+        const title = r.description
+          ? `${r.description}${r.nps ? " — " + r.nps : ""}`
+          : `Item ${r.id}`;
+
+        const card = document.createElement('div');
+        card.className = "search-card";
+        card.innerHTML = `
+          <div>
+            <div style="font-weight:700">${escapeHtml(title)}</div>
+            <div class="small">${escapeHtml(r.standard || "")}</div>
+            <div class="meta">
+              ${r.category ? `<span class="pill">${escapeHtml(r.category)}</span>` : ""}
+              ${r.grade ? `<span class="pill">${escapeHtml(r.grade)}</span>` : ""}
+              ${r.schedule ? `<span class="pill">${escapeHtml(r.schedule)}</span>` : ""}
+              ${r.nominal_bore ? `<span class="pill">NB ${escapeHtml(r.nominal_bore)}</span>` : ""}
+            </div>
+          </div>
+        `;
+        card.addEventListener('click', () => {
+          window.location.href = `pages/pipe-product.html?id=${encodeURIComponent(r.id)}`;
+        });
+        resultsEl.appendChild(card);
+      }
+
+      if (results.length > LIMIT) {
+        const seeAll = document.createElement('div');
+        seeAll.className = "see-all";
+        seeAll.innerHTML = `<a href="pages/search.html?q=${encodeURIComponent(query)}">See all ${results.length} results →</a>`;
+        resultsEl.appendChild(seeAll);
+      }
+    }
+
+    searchEl.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      const query = searchEl.value.trim();
+      debounceTimer = setTimeout(() => renderResults(query), 150);
+    });
+
+    searchEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const query = searchEl.value.trim();
+        if (query) window.location.href = `pages/search.html?q=${encodeURIComponent(query)}`;
+      }
+    });
+
+    loadAllData();
+  })();
+</script>
 </body>
 </html>

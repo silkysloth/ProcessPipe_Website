@@ -158,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }, {
-        threshold: 0.6 // trigger when 20% visible
+        threshold: 0.1 // trigger when 20% visible
     });
 
     items.forEach(item => observer.observe(item));

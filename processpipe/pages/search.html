@@ -18,11 +18,6 @@
     .row{display:flex; align-items:flex-start; justify-content:space-between; gap:1rem}
     .small{font-size:.9rem; opacity:.8}
     .empty{padding:1rem; border:1px dashed #ddd; border-radius:14px}
-    dialog{border:0; border-radius:16px; padding:0; max-width:720px; width:calc(100% - 2rem)}
-    .modal-h{padding:1rem 1.25rem; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center}
-    .modal-b{padding:1rem 1.25rem}
-    .x{border:0; background:transparent; font-size:1.25rem; cursor:pointer}
-    pre{white-space:pre-wrap; word-break:break-word; background:#f7f7f7; padding:1rem; border-radius:12px; overflow:auto}
   </style>
 </head>
 <body>
@@ -46,10 +41,10 @@
 
   <main class="container search-wrap">
     <h1>Search the catalogue</h1>
-    <p class="small">Try: <b>“SANS 62 50mm”</b>, <b>“ASTM A106 4 inch sch 40”</b>, <b>“90 elbow 6”</b>, <b>“BS 4504 flange”</b></p>
+    <p class="small">Try: <b>"SANS 62 50mm"</b>, <b>"ASTM A106 4 inch sch 40"</b>, <b>"galvanised 20"</b>, <b>"SANS 719 8 inch"</b></p>
 
     <div class="search-bar">
-      <input id="q" type="search" placeholder="Search pipes, fittings, sizes, schedules…" autocomplete="off" />
+      <input id="q" type="search" placeholder="Search pipes, sizes, standards…" autocomplete="off" />
       <button id="btn">Search</button>
     </div>
 
@@ -57,66 +52,122 @@
     <div id="results" class="results"></div>
   </main>
 
-  <dialog id="modal">
-    <div class="modal-h">
-      <div>
-        <div id="mTitle" style="font-weight:700"></div>
-        <div id="mSub" class="small"></div>
-      </div>
-      <button class="x" id="close" aria-label="Close">✕</button>
-    </div>
-    <div class="modal-b">
-      <div class="small" style="margin-bottom:.5rem;">Full row (JSON):</div>
-      <pre id="mJson"></pre>
-    </div>
-  </dialog>
-
   <script src="../script.js"></script>
   <script>
+    // --- Data sources: the old ../api/search.php + ../api/product.php backend has
+    // been replaced by these static per-type JSON files under data/pipes/.
+    const DATA_FILES = [
+      "../data/pipes/sans62.json",
+      "../data/pipes/sans719.json",
+      "../data/pipes/seamless.json",
+      "../data/pipes/galvinsed.json"
+    ];
+
     const qEl = document.getElementById('q');
     const btn = document.getElementById('btn');
     const resultsEl = document.getElementById('results');
     const statusEl = document.getElementById('status');
 
-    const modal = document.getElementById('modal');
-    const mTitle = document.getElementById('mTitle');
-    const mSub = document.getElementById('mSub');
-    const mJson = document.getElementById('mJson');
-    document.getElementById('close').addEventListener('click', () => modal.close());
+    let ALL_ITEMS = [];   // merged dataset from every JSON file, loaded once
+    let loadError = null;
 
-    async function runSearch() {
+    async function loadAllData() {
+      statusEl.textContent = "Loading catalogue…";
+      try {
+        const responses = await Promise.all(
+          DATA_FILES.map(url => fetch(url, { cache: "no-store" }))
+        );
+
+        const missing = responses.filter(r => !r.ok);
+        if (missing.length) {
+          throw new Error(
+            "Could not load: " + missing.map(r => r.url).join(", ")
+          );
+        }
+
+        const datasets = await Promise.all(responses.map(r => r.json()));
+        ALL_ITEMS = datasets.flat();
+
+        statusEl.textContent = `Loaded ${ALL_ITEMS.length} item(s).`;
+      } catch (err) {
+        loadError = err;
+        statusEl.textContent = "Error loading catalogue data: " + err.message;
+        console.error(err);
+      }
+    }
+
+    function normalize(str) {
+      return String(str ?? "").toLowerCase();
+    }
+
+    // Splits the query into tokens and requires every token to appear
+    // somewhere in the item's searchable text (keywords + key fields).
+    function matchesQuery(item, query) {
+      if (!query) return true;
+      const tokens = normalize(query).split(/\s+/).filter(Boolean);
+      const haystack = normalize([
+        item.keywords,
+        item.description,
+        item.category,
+        item.standard,
+        item.grade,
+        item.schedule,
+        item.nps,
+        item.nominal_bore,
+        item.outside_diameter
+      ].filter(Boolean).join(" "));
+
+      return tokens.every(tok => haystack.includes(tok));
+    }
+
+    function runSearch() {
+      if (loadError) {
+        statusEl.textContent = "Error: " + loadError.message;
+        return;
+      }
+
       const q = qEl.value.trim();
-      statusEl.textContent = q ? `Searching: "${q}"…` : "Showing latest items…";
       resultsEl.innerHTML = "";
 
-      const url = `../api/search.php?q=${encodeURIComponent(q)}&limit=60`;
-      const res = await fetch(url, { cache: "no-store" });
-      const data = await res.json();
+      const results = ALL_ITEMS.filter(item => matchesQuery(item, q));
 
-      if (!res.ok) {
-        statusEl.textContent = "Error: " + (data.message || "search failed");
+      statusEl.textContent = q
+        ? `${results.length} result(s) for "${q}"`
+        : `${results.length} item(s) — showing full catalogue`;
+
+      if (results.length === 0) {
+        resultsEl.innerHTML = `<div class="empty">No matches. Try different words (e.g. "sch 40", "A106", "galvanised", "DN 50").</div>`;
         return;
       }
 
-      statusEl.textContent = `${data.count} result(s)`;
-      if (!data.results || data.results.length === 0) {
-        resultsEl.innerHTML = `<div class="empty">No matches. Try different words (e.g. “sch 40”, “A106”, “elbow”, “DN 50”).</div>`;
-        return;
+      // cap initial render for very broad/empty queries so the page stays snappy
+      const LIMIT = 60;
+      const shown = results.slice(0, LIMIT);
+      if (results.length > LIMIT) {
+        const note = document.createElement('div');
+        note.className = "small";
+        note.textContent = `Showing first ${LIMIT} of ${results.length} — refine your search to narrow this down.`;
+        resultsEl.appendChild(note);
       }
 
-      for (const r of data.results) {
+      for (const r of shown) {
         const div = document.createElement('div');
         div.className = "card";
+        const title = r.description
+          ? `${r.description}${r.nps ? " — " + r.nps : ""}`
+          : (r.sku || `Item ${r.id}`);
+
         div.innerHTML = `
           <div class="row">
             <div>
-              <div style="font-weight:700">${escapeHtml(r.name || r.sku)}</div>
-              <div class="small">${escapeHtml(r.sku || "")}</div>
+              <div style="font-weight:700">${escapeHtml(title)}</div>
+              <div class="small">${escapeHtml(r.standard || "")}</div>
               <div class="meta">
                 ${r.category ? `<span class="pill">${escapeHtml(r.category)}</span>` : ""}
                 ${r.standard ? `<span class="pill">${escapeHtml(r.standard)}</span>` : ""}
-                ${r.subtype ? `<span class="pill">${escapeHtml(r.subtype)}</span>` : ""}
-                ${r.size_primary ? `<span class="pill">${escapeHtml(r.size_primary)}</span>` : ""}
+                ${r.grade ? `<span class="pill">${escapeHtml(r.grade)}</span>` : ""}
+                ${r.schedule ? `<span class="pill">${escapeHtml(r.schedule)}</span>` : ""}
+                ${r.nominal_bore ? `<span class="pill">NB ${escapeHtml(r.nominal_bore)}</span>` : ""}
               </div>
             </div>
             <button data-id="${r.id}" style="padding:.6rem .8rem;border-radius:12px;border:1px solid #eee;background:#fff;cursor:pointer">
@@ -124,19 +175,11 @@
             </button>
           </div>
         `;
-        div.querySelector('button').addEventListener('click', () => openDetails(r.id));
+        div.querySelector('button').addEventListener('click', () => {
+          window.location.href = `pipe-product.html?id=${encodeURIComponent(r.id)}`;
+        });
         resultsEl.appendChild(div);
       }
-    }
-
-    async function openDetails(id) {
-      const res = await fetch(`../api/product.php?id=${encodeURIComponent(id)}`, { cache: "no-store" });
-      const data = await res.json();
-      if (!res.ok) return alert(data.message || "Could not load product");
-      mTitle.textContent = data.name || data.sku || ("Product " + id);
-      mSub.textContent = [data.category, data.standard, data.subtype, data.size_primary].filter(Boolean).join(" • ");
-      mJson.textContent = JSON.stringify(data, null, 2);
-      modal.showModal();
     }
 
     function escapeHtml(str) {
@@ -149,7 +192,8 @@
     // auto-run if ?q= is provided
     const params = new URLSearchParams(location.search);
     if (params.get('q')) qEl.value = params.get('q');
-    runSearch();
+
+    loadAllData().then(runSearch);
   </script>
 </body>
 </html>
